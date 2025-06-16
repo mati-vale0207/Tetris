@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="tetris.css">
+    <link rel="stylesheet" href="controles.css">
+
+    <!--haaa haber si funciona-->
+    <style>
+        /* ==================================================
+           MENÚ FLOTANTE - ESTILOS AISLADOS
+           ================================================== */
+        
+        /* Contenedor del menú flotante - posición fija */
+        .floating-menu-wrapper {
+            position: fixed !important;
+            top: 15px !important;
+            right: 15px !important;
+            z-index: 99999 !important;
+            font-family: Arial, sans-serif !important;
+        }
+        
+        /* Botón principal del menú */
+        .floating-menu-btn {
+            width: 55px !important;
+            height: 55px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            background: linear-gradient(45deg, #667eea, #764ba2) !important;
+            color: white !important;
+            font-size: 20px !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .floating-menu-btn:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+        }
+        
+        /* Panel del menú */
+        .floating-menu-panel {
+            position: absolute !important;
+            top: 65px !important;
+            right: 0 !important;
+            width: 250px !important;
+            background: white !important;
+            border-radius: 15px !important;
+            padding: 20px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+            transform: translateY(-20px) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        /* Panel activo */
+        .floating-menu-panel.show {
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Título del menú */
+        .floating-menu-title {
+            margin: 0 0 15px 0 !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            color: #333 !important;
+            border-bottom: 2px solid #f0f0f0 !important;
+            padding-bottom: 10px !important;
+        }
+        
+        /* Secciones del menú */
+        .floating-menu-section {
+            margin-bottom: 20px !important;
+        }
+        
+        .floating-menu-section-title {
+            font-size: 14px !important;
+            font-weight: bold !important;
+            margin-bottom: 10px !important;
+            color: #555 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+        
+        /* Botones del menú */
+        .floating-menu-action-btn {
+            width: 100% !important;
+            padding: 10px 15px !important;
+            border: none !important;
+            border-radius: 8px !important;
+            background: #4CAF50 !important;
+            color: white !important;
+            cursor: pointer !important;
+            font-size: 13px !important;
+            margin-bottom: 8px !important;
+            transition: background 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+        
+        .floating-menu-action-btn:hover {
+            background: #45a049 !important;
+        }
+        
+        .floating-menu-action-btn.music {
+            background: #2196F3 !important;
+        }
+        
+        .floating-menu-action-btn.music:hover {
+            background: #1976D2 !important;
+        }
+        
+        /* Controles de volumen */
+        .floating-volume-controls {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            margin-top: 8px !important;
+        }
+        
+        .floating-volume-btn {
+            width: 30px !important;
+            height: 30px !important;
+            border: none !important;
+            border-radius: 5px !important;
+            background: #ddd !important;
+            cursor: pointer !important;
+            font-size: 12px !important;
+            transition: background 0.3s ease !important;
+        }
+        
+        .floating-volume-btn:hover {
+            background: #bbb !important;
+        }
+        
+        .floating-volume-slider {
+            flex: 1 !important;
+            height: 4px !important;
+            border-radius: 2px !important;
+            background: #ddd !important;
+            outline: none !important;
+            -webkit-appearance: none !important;
+        }
+        
+        .floating-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none !important;
+            width: 16px !important;
+            height: 16px !important;
+            border-radius: 50% !important;
+            background: #2196F3 !important;
+            cursor: pointer !important;
+        }
+        
+        .floating-volume-display {
+            font-size: 11px !important;
+            color: #666 !important;
+            min-width: 30px !important;
+            text-align: center !important;
+        }
+        
+        /* Toggle modo oscuro */
+        .floating-theme-toggle {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 10px !important;
+            background: #f8f9fa !important;
+            border-radius: 8px !important;
+        }
+        
+        .floating-switch {
+            position: relative !important;
+            display: inline-block !important;
+            width: 45px !important;
+            height: 22px !important;
+        }
+        
+        .floating-switch input {
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+        
+        .floating-switch-slider {
+            position: absolute !important;
+            cursor: pointer !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background-color: #ccc !important;
+            transition: 0.4s !important;
+            border-radius: 22px !important;
+        }
+        
+        .floating-switch-slider:before {
+            position: absolute !important;
+            content: "" !important;
+            height: 16px !important;
+            width: 16px !important;
+            left: 3px !important;
+            bottom: 3px !important;
+            background-color: white !important;
+            transition: 0.4s !important;
+            border-radius: 50% !important;
+        }
+        
+        .floating-switch input:checked + .floating-switch-slider {
+            background-color: #2196F3 !important;
+        }
+        
+        .floating-switch input:checked + .floating-switch-slider:before {
+            transform: translateX(23px) !important;
+        }
+        
+        .floating-theme-label {
+            font-size: 13px !important;
+            color: #333 !important;
+        }
+        
+        /* Modo oscuro para el menú */
+        body.dark-mode .floating-menu-panel {
+            background: #2d2d2d !important;
+            color: white !important;
+        }
+        
+        body.dark-mode .floating-menu-title {
+            color: white !important;
+            border-bottom-color: #444 !important;
+        }
+        
+        body.dark-mode .floating-menu-section-title {
+            color: #ccc !important;
+        }
+        
+        body.dark-mode .floating-theme-toggle {
+            background: #404040 !important;
+        }
+        
+        body.dark-mode .floating-theme-label {
+            color: white !important;
+        }
+        
+        /* Modo oscuro para todo el body */
+        body.dark-mode {
+            background-color: #1a1a1a !important;
+            color: white !important;
+        }
+    </style>
+
+</head>
+<body>
+ <!--solo puebra-->
+<video class="video-background" autoplay muted loop>
+    <source src="video/tetra.mp4" type="video/mp4">
+    <source src="" type="video/tetra.mp4">
+</video>
+ <!--vamos-->
+
+
+
+    <div id="centerbox">
+<TABLE cellspacing="0" cellpadding="0" width="100%" height="68%"><TBODY><TR><TD valign="middle">
+
+    <DIV id="tetris">
+        <DIV class="left">
+            <H1>Tetris Game</H1>
+            <DIV class="menu">
+                <DIV><INPUT type="button" value="New Game" id="tetris-menu-start"></DIV>
+                <DIV><INPUT type="button" value="Reset" id="tetris-menu-reset"></DIV>
+                <DIV><INPUT type="button" value="Help" id="tetris-menu-help"></DIV>
+                <DIV><INPUT type="button" value="Highscores" id="tetris-menu-highscores"></DIV>
+            </DIV>
+            <DIV class="keyboard">
+                <DIV class="up"><INPUT type="button" value="^" id="tetris-keyboard-up"></DIV>
+                <DIV class="down"><INPUT type="button" value="v" id="tetris-keyboard-down"></DIV>
+                <DIV class="left"><INPUT type="button" value="&lt;" id="tetris-keyboard-left"></DIV>
+                <DIV class="right"><INPUT type="button" value="&gt;" id="tetris-keyboard-right"></DIV>
+            </DIV>
+            <DIV id="tetris-nextpuzzle" style="display: none; "></DIV>
+            <DIV id="tetris-gameover" style="display: none; ">Fin del juego</DIV>
+            <DIV class="stats">
+                <TABLE cellspacing="0" cellpadding="0">
+                <TBODY><TR>
+                    <TD class="level">Nivel:</TD>
+                    <TD><SPAN id="tetris-stats-level">1</SPAN></TD>
+                </TR>
+                <TR>
+                    <TD class="score">Puntos:</TD>
+                    <TD><SPAN id="tetris-stats-score">0</SPAN></TD>
+                </TR>
+                <TR>
+                    <TD class="lines">Lines:</TD>
+                    <TD><SPAN id="tetris-stats-lines">0</SPAN></TD>
+                </TR>
+                <TR>
+                    <TD class="apm">APM:</TD>
+                    <TD><SPAN id="tetris-stats-apm">0</SPAN></TD>
+                </TR>
+                <TR>
+                    <TD class="time">Tiempo:</TD>
+                    <TD><SPAN id="tetris-stats-time">0</SPAN></TD>
+                </TR>
+                
+                </TBODY></TABLE>
+            </DIV>
+        </DIV>
+        <DIV id="tetris-area"></DIV>
+        <DIV id="tetris-help" class="window" style="display: none; ">
+            <DIV class="top">
+                Ayuda <SPAN id="tetris-help-close" class="close">x</SPAN>
+            </DIV>
+            <DIV class="content">
+                <B>Controles:</B> <BR>
+                up - rotate <BR>
+                down - move down <BR>
+                left - move left <BR>
+                right - move right <BR>
+                space - fall to the bottom <BR>
+                n - new game <BR>
+                r - reset <BR>
+                <BR>
+                <B>Rules:</B> <BR>
+                1) Velocidad del rompecabezas = 80 + 700/milisegundos de nivel, cuanto menor sea el valor, más rápido caerá el rompecabezas. <BR>
+                2) Si los rompecabezas creados en el nivel actual &gt;= 10 + nivel * 2, entonces aumenta el nivel <BR>
+                3) Después de caer en el rompecabezas, la puntuación aumenta en 1000*nivel*líneasEliminado <BR>
+                4) Cada acción "abajo" aumenta la puntuación en 5+nivel (presionar espacio cuenta como múltiples acciones abajo)
+            </DIV>
+        </DIV>
+        <DIV id="tetris-highscores" class="window" style="display: none; ">
+            <DIV class="top">
+                Highscores <SPAN id="tetris-highscores-close" class="close">x</SPAN>
+            </DIV>
+            <DIV class="content">
+                <DIV id="tetris-highscores-content"></DIV>
+                <BR>
+                Nota: estas puntuaciones se guardan en cookies, sólo son visibles para tu computadora, otros jugadores que visitan esta página ven sus propias puntuaciones.
+            </DIV>
+        </DIV>
+    </DIV>  
+    </TD></TR></TBODY></TABLE>
+</div>
+
+<div class="controls-container">
+    <div class="controls-title">Controles Visuales</div>
+    
+    <div class="arrow-controls">
+        <button class="arrow-btn arrow-up" data-direction="up">↑</button>
+        <button class="arrow-btn arrow-left" data-direction="left">←</button>
+        <button class="arrow-btn arrow-down" data-direction="down">↓</button>
+        <button class="arrow-btn arrow-right" data-direction="right">→</button>
+    </div>
+
+    <div class="controls-info">
+        <div><strong>↑</strong> Rotar pieza</div>
+        <div><strong>←</strong> Mover izquierda</div>
+        <div><strong>→</strong> Mover derecha</div>
+        <div><strong>↓</strong> Caída rápida</div>
+    </div>
+</div>
+<!--esto vamos a haber si funciona haa intento 2-->
+       
+    <div class="floating-menu-wrapper">
+        <!-- Botón principal -->
+        <button class="floating-menu-btn" id="floatingMenuBtn">⚙️</button>
+        
+        <!-- Panel del menú -->
+        <div class="floating-menu-panel" id="floatingMenuPanel">
+            <div class="floating-menu-title">🎮 Configuración</div>
+            
+            <!-- Sección de Música -->
+            <div class="floating-menu-section">
+                <div class="floating-menu-section-title">🎵 Música</div>
+                
+                <button class="floating-menu-action-btn music" id="floatingPlayBtn">
+                    <span id="floatingPlayIcon">▶️</span>
+                    <span id="floatingPlayText">Reproducir</span>
+                </button>
+                
+                <div class="floating-volume-controls">
+                    <button class="floating-volume-btn" id="floatingVolumeDown">🔉</button>
+                    <input type="range" class="floating-volume-slider" id="floatingVolumeSlider" 
+                           min="0" max="100" value="50">
+                    <button class="floating-volume-btn" id="floatingVolumeUp">🔊</button>
+                    <span class="floating-volume-display" id="floatingVolumeDisplay">50%</span>
+                </div>
+            </div>
+            
+            <!-- Sección de Tema -->
+            <div class="floating-menu-section">
+                <div class="floating-menu-section-title">🌙 Apariencia</div>
+                
+                <div class="floating-theme-toggle">
+                    <span class="floating-theme-label">Modo Oscuro</span>
+                    <label class="floating-switch">
+                        <input type="checkbox" id="floatingDarkMode">
+                        <span class="floating-switch-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Audio para música -->
+    <audio  src="music/Alan.mp3" id="floatingBackgroundMusic" loop>
+        
+    </audio>
+
+    <!-- JAVASCRIPT DEL MENÚ FLOTANTE - AISLADO Y SEGURO -->
+    <script>
+        // ===================================================
+        
+        
+        (function() {
+            'use strict';
+            
+            // Variables del menú flotante
+            let floatingMenuOpen = false;
+            let floatingMusicPlaying = false;
+            let floatingCurrentVolume = 50;
+            
+            // Elementos del DOM
+            const floatingMenuBtn = document.getElementById('floatingMenuBtn');
+            const floatingMenuPanel = document.getElementById('floatingMenuPanel');
+            const floatingPlayBtn = document.getElementById('floatingPlayBtn');
+            const floatingPlayIcon = document.getElementById('floatingPlayIcon');
+            const floatingPlayText = document.getElementById('floatingPlayText');
+            const floatingVolumeSlider = document.getElementById('floatingVolumeSlider');
+            const floatingVolumeUp = document.getElementById('floatingVolumeUp');
+            const floatingVolumeDown = document.getElementById('floatingVolumeDown');
+            const floatingVolumeDisplay = document.getElementById('floatingVolumeDisplay');
+            const floatingDarkMode = document.getElementById('floatingDarkMode');
+            const floatingBackgroundMusic = document.getElementById('floatingBackgroundMusic');
+            
+            // Función para toggle del menú
+            function toggleFloatingMenu() {
+                floatingMenuOpen = !floatingMenuOpen;
+                
+                if (floatingMenuOpen) {
+                    floatingMenuPanel.classList.add('show');
+                    floatingMenuBtn.innerHTML = '✕';
+                    floatingMenuBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a24)';
+                } else {
+                    floatingMenuPanel.classList.remove('show');
+                    floatingMenuBtn.innerHTML = '⚙️';
+                    floatingMenuBtn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                }
+                
+                console.log('Menú flotante:', floatingMenuOpen ? 'Abierto' : 'Cerrado');
+            }
+            
+            // Función para toggle de música
+            function toggleFloatingMusic() {
+                floatingMusicPlaying = !floatingMusicPlaying;
+                
+                if (floatingMusicPlaying) {
+                    floatingPlayIcon.textContent = '⏸️';
+                    floatingPlayText.textContent = 'Pausar';
+                    
+                    // Intentar reproducir música real
+                    try {
+                        floatingBackgroundMusic.play();
+                        console.log('🎵 Música iniciada');
+                    } catch (error) {
+                        console.log('🎵 Música simulada (no hay archivo de audio)');
+                    }
+                } else {
+                    floatingPlayIcon.textContent = '▶️';
+                    floatingPlayText.textContent = 'Reproducir';
+                    
+                    try {
+                        floatingBackgroundMusic.pause();
+                        console.log('⏸️ Música pausada');
+                    } catch (error) {
+                        console.log('⏸️ Música pausada (simulada)');
+                    }
+                }
+            }
+            
+            // Función para actualizar volumen
+            function updateFloatingVolume(volume) {
+                floatingCurrentVolume = Math.max(0, Math.min(100, volume));
+                floatingVolumeSlider.value = floatingCurrentVolume;
+                floatingVolumeDisplay.textContent = floatingCurrentVolume + '%';
+                floatingBackgroundMusic.volume = floatingCurrentVolume / 100;
+                
+                // Guardar preferencia
+                try {
+                    localStorage.setItem('floating_tetris_volume', floatingCurrentVolume);
+                } catch (e) {
+                    console.log('No se pudo guardar el volumen');
+                }
+                
+                console.log('🔊 Volumen:', floatingCurrentVolume + '%');
+            }
+            
+            // Función para modo oscuro
+            function toggleFloatingDarkMode() {
+                const isDark = floatingDarkMode.checked;
+                
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                    try {
+                        localStorage.setItem('floating_tetris_theme', 'dark');
+                    } catch (e) {}
+                    console.log('🌙 Modo oscuro activado');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    try {
+                        localStorage.setItem('floating_tetris_theme', 'light');
+                    } catch (e) {}
+                    console.log('☀️ Modo claro activado');
+                }
+            }
+            
+            // Función para cerrar menú al hacer clic fuera
+            function closeFloatingMenuOnClickOutside(event) {
+                if (floatingMenuOpen && !event.target.closest('.floating-menu-wrapper')) {
+                    toggleFloatingMenu();
+                }
+            }
+            
+            // Cargar preferencias guardadas
+            function loadFloatingPreferences() {
+                // Cargar tema
+                try {
+                    const savedTheme = localStorage.getItem('floating_tetris_theme');
+                    if (savedTheme === 'dark') {
+                        floatingDarkMode.checked = true;
+                        document.body.classList.add('dark-mode');
+                    }
+                } catch (e) {}
+                
+                // Cargar volumen
+                try {
+                    const savedVolume = localStorage.getItem('floating_tetris_volume');
+                    if (savedVolume) {
+                        updateFloatingVolume(parseInt(savedVolume));
+                    }
+                } catch (e) {}
+            }
+            
+            // Inicializar cuando el DOM esté listo
+            function initFloatingMenu() {
+                console.log('🚀 Inicializando menú flotante...');
+                
+                // Verificar que todos los elementos existan
+                if (!floatingMenuBtn || !floatingMenuPanel) {
+                    console.error('❌ Error: No se encontraron los elementos del menú flotante');
+                    return;
+                }
+                
+                // Configurar event listeners
+                floatingMenuBtn.addEventListener('click', toggleFloatingMenu);
+                document.addEventListener('click', closeFloatingMenuOnClickOutside);
+                
+                floatingPlayBtn.addEventListener('click', toggleFloatingMusic);
+                
+                floatingVolumeSlider.addEventListener('input', function(e) {
+                    updateFloatingVolume(parseInt(e.target.value));
+                });
+                
+                floatingVolumeUp.addEventListener('click', function() {
+                    updateFloatingVolume(floatingCurrentVolume + 10);
+                });
+                
+                floatingVolumeDown.addEventListener('click', function() {
+                    updateFloatingVolume(floatingCurrentVolume - 10);
+                });
+                
+                floatingDarkMode.addEventListener('change', toggleFloatingDarkMode);
+                
+                // Cargar preferencias
+                loadFloatingPreferences();
+                
+                // Configurar volumen inicial
+                updateFloatingVolume(floatingCurrentVolume);
+                
+                console.log('✅ Menú flotante inicializado correctamente');
+            }
+            
+            // Inicializar cuando el DOM esté listo
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initFloatingMenu);
+            } else {
+                initFloatingMenu();
+            }
+            
+        })(); // Función auto-ejecutada para aislar el código
+    </script>
+
+<script src="tetris.js"></script>
+</body>
+</html>             
+
+
