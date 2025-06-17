@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+body::before {
+    /*establece una capa de fondo*/
+    content: "";
+    /*crea un contenido vacio para la capa de fondo*/
+    position: absolute;
+    /*posiciona de forma absoluta el cuerpo*/
+    left: 0;
+    /*alinea la capa a la izquierda*/
+    top: 0;
+    /*alinea la capa a la parte superior*/
+    width: 100%;
+    /*establece el ancho completo*/
+    height: 100%;
+    /*alto completo*/
+    background: url(img/fondo2.jpg) no-repeat center center;
+    /*imagen de fondo queda centrado y fijo*/
+    background-size: cover;
+    /*ajusta la imagen para cubrir todo el fondo*/
+  filter: brightness(1.5) contrast(1.1) saturate(1.3);
+}
+
+
+.t1 {
+    height: 300px;
+    width: 300px;
+    position: fixed;
+    display: flex;
+    box-sizing: border-box;
+    margin: 100px 200px;
+    /*animation: flotar 3s ease-in-out infinite;*/
+    top: -7%;
+    left: 7%;
+    transform: translate(30%, 30%);
+    animation: flotarGiraX 8s linear infinite;
+    transform-style: preserve-3d;
+    filter: brightness(1.5) contrast(1.1) saturate(1.3);
+}
+
+.t2 {
+    height: 300px;
+    width: 300px;
+    position: fixed;
+    display: flex;
+    box-sizing: border-box;
+    margin: 50px 20px;
+    animation: flotar 3s ease-in-out infinite;
+    top: 1%;
+    left: 50%;
+    transform: translate(50%, 50%);
+    filter: brightness(1.5) contrast(1.1) saturate(1.3);
+}
+
+.t3 {
+    height: 325px;
+    width: 325px;
+    position: fixed;
+    display: flex;
+    box-sizing: border-box;
+    margin: 100px 200px;
+    animation: flotar 3s ease-in-out infinite;
+    top: 40%;
+    left: -10%;
+    transform: translate(50%, 50%);
+}
+
+.t4 {
+    height: 200px;
+    width: 200px;
+    position: fixed;
+    display: flex;
+    box-sizing: border-box;
+    margin: 100px 200px;
+    animation: flotarGiraX 5s linear infinite;
+    transform-style: preserve-3d;
+    top: 45%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+    
+}
+
+@keyframes flotar {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes flotarGiraX {
+    0% {
+        transform: translateY(0px) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-25px) rotateY(180deg);
+    }
+    100% {
+        transform: translateY(0px) rotateY(360deg);
+    }
+}
+
+.name {
+    position: absolute;
+    margin-top: 50px;
+    width: 380px;
+    height: 200px;
+    align-content: center;
+    top: 50%;
+    left: 38%;
+    transform: translate(-50, -50%);
+    box-shadow:
+        0 0 10px #00f,
+        0 0 20px #0ff,
+        0 0 30px #0ff,
+        0 0 40px #0ff;
+    transition: box-shadow 0.3s ease;
+}
+
+.name:hover {
+    box-shadow:
+        0 0 15px #00f,
+        0 0 30px #0ff,
+        0 0 45px #0ff,
+        0 0 70px #0ff;
+}
+
+
+/* From Uiverse.io by Madflows */
+.button {
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    overflow: hidden;
+    height: 3rem;
+    padding: 0 2rem;
+    border-radius: 1.5rem;
+    background: #fff;
+    background-size: 400%;
+    color: #6210ce;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    animation: giro 3.s ease-in-out infinite;
+    box-shadow:         0 0 15px #00f,
+        0 0 30px #0ff,
+        0 0 45px #0ff,
+        0 0 60px #0ff;
+}
+
+.a {
+    text-decoration: none;
+}
+
+.button:hover::before {
+    transform: scaleX(1);
+}
+
+.button-content {
+    position: relative;
+    z-index: 1;
+}
+
+.button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    width: 100%;
+    height: inherit;
+    border-radius: inherit;
+    background: linear-gradient(82.3deg,
+            rgba(150, 93, 233, 1) 10.8%,
+            rgba(99, 88, 238, 1) 94.3%);
+    transition: all 0.475s;
+}
+
+.button span:hover {
+    color: #fff;
+}
+
+/*estilos para destllos de colores*/
+.destello {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: brillo 1.5s ease-in-out forwards;
+    filter: brightness(2.1) contrast(1.1) saturate(1.3);
+    overflow: hidden;
+}
+
+@keyframes brillo {
+    0% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 2; transform: scale(1.5); }
+    100% { opacity: 0; transform: scale(0.8); }
+}
+
+
+
+/*estilos para lluvia*/
+canvas#stars {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+

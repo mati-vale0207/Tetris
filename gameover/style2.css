@@ -1,0 +1,250 @@
+        /* ==================================================
+           MENÚ FLOTANTE - ESTILOS AISLADOS
+           ================================================== */
+
+        /* Contenedor del menú flotante - posición fija */
+        .floating-menu-wrapper {
+            position: fixed !important;
+            top: 15px !important;
+            right: 15px !important;
+            z-index: 99999 !important;
+            font-family: Arial, sans-serif !important;
+        }
+
+        /* Botón principal del menú */
+        .floating-menu-btn {
+            width: 55px !important;
+            height: 55px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            background: linear-gradient(45deg, #667eea, #764ba2) !important;
+            color: white !important;
+            font-size: 20px !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .floating-menu-btn:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* Panel del menú */
+        .floating-menu-panel {
+            position: absolute !important;
+            top: 65px !important;
+            right: 0 !important;
+            width: 250px !important;
+            background: white !important;
+            border-radius: 15px !important;
+            padding: 20px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+            transform: translateY(-20px) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.3s ease !important;
+        }
+
+        /* Panel activo */
+        .floating-menu-panel.show {
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Título del menú */
+        .floating-menu-title {
+            margin: 0 0 15px 0 !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            color: #333 !important;
+            border-bottom: 2px solid #f0f0f0 !important;
+            padding-bottom: 10px !important;
+        }
+
+        /* Secciones del menú */
+        .floating-menu-section {
+            margin-bottom: 20px !important;
+        }
+
+        .floating-menu-section-title {
+            font-size: 14px !important;
+            font-weight: bold !important;
+            margin-bottom: 10px !important;
+            color: #555 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+
+        /* Botones del menú */
+        .floating-menu-action-btn {
+            width: 100% !important;
+            padding: 10px 15px !important;
+            border: none !important;
+            border-radius: 8px !important;
+            background: #4CAF50 !important;
+            color: white !important;
+            cursor: pointer !important;
+            font-size: 13px !important;
+            margin-bottom: 8px !important;
+            transition: background 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
+        .floating-menu-action-btn:hover {
+            background: #45a049 !important;
+        }
+
+        .floating-menu-action-btn.music {
+            background: #2196F3 !important;
+        }
+
+        .floating-menu-action-btn.music:hover {
+            background: #1976D2 !important;
+        }
+
+        /* Controles de volumen */
+        .floating-volume-controls {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            margin-top: 8px !important;
+        }
+
+        .floating-volume-btn {
+            width: 30px !important;
+            height: 30px !important;
+            border: none !important;
+            border-radius: 5px !important;
+            background: #ddd !important;
+            cursor: pointer !important;
+            font-size: 12px !important;
+            transition: background 0.3s ease !important;
+        }
+
+        .floating-volume-btn:hover {
+            background: #bbb !important;
+        }
+
+        .floating-volume-slider {
+            flex: 1 !important;
+            height: 4px !important;
+            border-radius: 2px !important;
+            background: #ddd !important;
+            outline: none !important;
+            -webkit-appearance: none !important;
+        }
+
+        .floating-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none !important;
+            width: 16px !important;
+            height: 16px !important;
+            border-radius: 50% !important;
+            background: #2196F3 !important;
+            cursor: pointer !important;
+        }
+
+        .floating-volume-display {
+            font-size: 11px !important;
+            color: #666 !important;
+            min-width: 30px !important;
+            text-align: center !important;
+        }
+
+        /* Toggle modo oscuro */
+        .floating-theme-toggle {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 10px !important;
+            background: #f8f9fa !important;
+            border-radius: 8px !important;
+        }
+
+        .floating-switch {
+            position: relative !important;
+            display: inline-block !important;
+            width: 45px !important;
+            height: 22px !important;
+        }
+
+        .floating-switch input {
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        .floating-switch-slider {
+            position: absolute !important;
+            cursor: pointer !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background-color: #ccc !important;
+            transition: 0.4s !important;
+            border-radius: 22px !important;
+        }
+
+        .floating-switch-slider:before {
+            position: absolute !important;
+            content: "" !important;
+            height: 16px !important;
+            width: 16px !important;
+            left: 3px !important;
+            bottom: 3px !important;
+            background-color: white !important;
+            transition: 0.4s !important;
+            border-radius: 50% !important;
+        }
+
+        .floating-switch input:checked+.floating-switch-slider {
+            background-color: #2196F3 !important;
+        }
+
+        .floating-switch input:checked+.floating-switch-slider:before {
+            transform: translateX(23px) !important;
+        }
+
+        .floating-theme-label {
+            font-size: 13px !important;
+            color: #333 !important;
+        }
+
+        /* Modo oscuro para el menú */
+        body.dark-mode .floating-menu-panel {
+            background: #2d2d2d !important;
+            color: white !important;
+        }
+
+        body.dark-mode .floating-menu-title {
+            color: white !important;
+            border-bottom-color: #444 !important;
+        }
+
+        body.dark-mode .floating-menu-section-title {
+            color: #ccc !important;
+        }
+
+        body.dark-mode .floating-theme-toggle {
+            background: #404040 !important;
+        }
+
+        body.dark-mode .floating-theme-label {
+            color: white !important;
+        }
+
+        /* Modo oscuro para todo el body */
+        body.dark-mode {
+            background-color: #1a1a1a !important;
+            color: white !important;
+        }
